@@ -1,152 +1,197 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Your Results 💗</title>
-  <style>
-    body {
-      font-family: "Poppins", sans-serif;
-      background: #ffe3ef;
-      padding: 40px 20px;
-      max-width: 900px;
-      margin: auto;
-      color: #444;
-    }
+<title>Your Results 🌿</title>
 
-    /* Results Box */
-    #resultsBox {
-      background: rgba(255, 255, 255, 0.9);
-      padding: 40px;
-      border-radius: 25px;
-      text-align: center;
-      box-shadow: 0px 8px 25px rgba(255, 150, 180, 0.4);
-      margin-bottom: 40px;
-    }
+<!-- Font -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
-    h1 { color: #ff6fa8; font-size: 40px; margin-bottom: 10px; }
-    h2 { color: #ff8fb8; font-size: 28px; margin-bottom: 5px; }
-    p { font-size: 20px; margin: 8px 0; }
+<style>
+body {
+    font-family: "Poppins", sans-serif;
+    background: linear-gradient(135deg, #f3f7f4, #e1ece4);
+    padding: 40px 15px;
+    max-width: 900px;
+    margin: auto;
+    color: #2F3E34;
+    animation: fadeIn 0.7s ease-out;
+}
 
-    /* Button styles */
-    .btn-area {
-      margin-top: 20px;
-    }
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
 
-    .btn {
-      padding: 12px 25px;
-      border: none;
-      border-radius: 20px;
-      font-size: 18px;
-      cursor: pointer;
-      color: white;
-      margin: 10px;
-      transition: 0.3s;
-    }
+/* Card */
+#resultsBox {
+    background: white;
+    padding: 40px;
+    border-radius: 25px;
+    text-align: center;
+    box-shadow: 0px 8px 25px rgba(0, 0, 0, 0.07);
+    margin-bottom: 40px;
+}
 
-    .btn:hover {
-      transform: translateY(-3px);
-    }
+h1 {
+    color: #7AA78B;
+    font-size: 42px;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
 
-    .retry { background: #ff6fa8; }
-    .home  { background: #a2d2ff; }
+h2 {
+    color: #8EB897;
+    font-size: 28px;
+    margin-bottom: 12px;
+}
 
-    /* Review Section */
-    .question-box {
-      background: white;
-      padding: 20px;
-      border-radius: 20px;
-      box-shadow: 0 4px 12px rgba(255,150,180,0.3);
-      margin-bottom: 20px;
-    }
+p {
+    font-size: 18px;
+    margin: 5px 0;
+}
 
-    .correct { color: #1a8f3a; font-weight: bold; }
-    .wrong   { color: #d61f3b; font-weight: bold; }
-  </style>
+/* Buttons */
+.btn-area {
+    margin-top: 20px;
+}
+
+.btn {
+    padding: 12px 25px;
+    border: none;
+    border-radius: 18px;
+    font-size: 17px;
+    cursor: pointer;
+    color: white;
+    margin: 10px;
+    transition: 0.3s;
+}
+
+.retry {
+    background: #8EB897;
+}
+
+.retry:hover {
+    background: #7AA78B;
+}
+
+.home {
+    background: #A6C8B2;
+}
+
+.home:hover {
+    background: #95B7A2;
+}
+
+/* Review section */
+.review-title {
+    text-align:center;
+    color: #7AA78B;
+    margin-bottom: 25px;
+    font-size: 30px;
+    font-weight: 600;
+}
+
+.question-box {
+    background: white;
+    padding: 20px;
+    border-radius: 20px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    margin-bottom: 20px;
+}
+
+.correct {
+    color: #1a8f3a;
+    font-weight: bold;
+}
+
+.wrong {
+    color: #d61f3b;
+    font-weight: bold;
+}
+
+</style>
 </head>
 <body>
 
 <div id="resultsBox">
-  <h1>Results 🎉</h1>
-  <h2 id="player"></h2>
+    <h1>Results 🎉</h1>
+    <h2 id="player"></h2>
 
-  <p id="course"></p>
-  <p id="module"></p>
-  <p id="score"></p>
+    <p id="course"></p>
+    <p id="module"></p>
+    <p id="score"></p>
 
-  <p id="message" style="font-weight:bold; margin-top:15px;"></p>
+    <p id="message" style="font-weight:bold; margin-top:15px;"></p>
 
-  <div class="btn-area">
-    <button class="btn retry" onclick="window.location.href='quiz.html'">Retry Module</button>
-    <button class="btn home" onclick="window.location.href='courses.html'">Back to Courses</button>
-  </div>
+    <div class="btn-area">
+        <button class="btn retry" onclick="window.location.href='quiz.html'">Retry Module</button>
+        <button class="btn home" onclick="window.location.href='courses.html'">Back to Courses</button>
+    </div>
 </div>
 
-<h1 style="text-align:center; color:#ff6fa8; margin-bottom:20px;">
-  Review Your Answers 💗
-</h1>
+<h1 class="review-title">Review Your Answers 🌿</h1>
 
 <div id="reviewContainer"></div>
 
 <script>
-  /* Retrieve stored data */
-  let name = localStorage.getItem("playerName");
-  let course = localStorage.getItem("selectedCourse");
-  let moduleNum = localStorage.getItem("selectedModule");
-  let score = localStorage.getItem("score");
-  let reviewQuestions = JSON.parse(localStorage.getItem("reviewQuestions"));
-  let reviewAnswers = JSON.parse(localStorage.getItem("reviewAnswers"));
+/* Retrieve stored data */
+let name = localStorage.getItem("playerName");
+let course = localStorage.getItem("selectedCourse");
+let moduleNum = localStorage.getItem("selectedModule");
+let score = localStorage.getItem("score");
+let reviewQuestions = JSON.parse(localStorage.getItem("reviewQuestions"));
+let reviewAnswers = JSON.parse(localStorage.getItem("reviewAnswers"));
 
-  /* Top results section */
-  document.getElementById("player").innerText = `${name}, great job! 💗`;
-  document.getElementById("course").innerText = "Course: " + course;
-  document.getElementById("module").innerText = "Module: " + moduleNum;
-  document.getElementById("score").innerText = "Your Score: " + score;
+/* Top results section */
+document.getElementById("player").innerText = `${name}, great job! 💗`;
+document.getElementById("course").innerText = "Course: " + course;
+document.getElementById("module").innerText = "Module: " + moduleNum;
+document.getElementById("score").innerText = "Your Score: " + score;
 
-  /* Cute performance message */
+/* Messages */
 let msg = "";
 let timeUp = localStorage.getItem("timeUp");
 
-/* If time ended, show ONLY the time message */
 if (timeUp === "yes") {
-  msg = "Time is up! ⏳";
-  localStorage.removeItem("timeUp");
+    msg = "Time is up! ⏳";
+    localStorage.removeItem("timeUp");
 } else {
-  /* Otherwise show normal score-based message */
-  if (score >= 8) msg = "WOW amazing 🎉 You're killing this!";
-  else if (score >= 5) msg = "Good job! Keep practicing 💗";
-  else msg = "It's okay, try again! You’ll get it 💪💗";
+    if (score >= 8) msg = "WOW amazing 🎉 You're killing this!";
+    else if (score >= 5) msg = "Good job! Keep practicing 🌿";
+    else msg = "It's okay, try again! You’ll improve 💪🌿";
 }
 
 document.getElementById("message").innerText = msg;
 
+/* Review Section */
+const container = document.getElementById("reviewContainer");
 
-  /* Review Section */
-  const container = document.getElementById("reviewContainer");
-
-  reviewQuestions.forEach((q, i) => {
+reviewQuestions.forEach((q, i) => {
     let userAnswer = reviewAnswers[i];
     let correctAnswer = q.answer;
 
     let isCorrect = userAnswer === correctAnswer;
 
     container.innerHTML += `
-      <div class="question-box">
+    <div class="question-box">
         <h3>Q${i+1}: ${q.question}</h3>
 
-        <p><strong>Your answer:</strong> 
-          <span class="${isCorrect ? 'correct' : 'wrong'}">
-            ${userAnswer !== null && userAnswer !== undefined 
-              ? q.options[userAnswer] 
-              : "No answer"}
-          </span>
+        <p><strong>Your answer:</strong>
+            <span class="${isCorrect ? 'correct' : 'wrong'}">
+                ${userAnswer !== null && userAnswer !== undefined
+                    ? q.options[userAnswer]
+                    : "No answer"}
+            </span>
         </p>
 
-        <p><strong>Correct answer:</strong> 
-          <span class="correct">${q.options[correctAnswer]}</span>
+        <p><strong>Correct answer:</strong>
+            <span class="correct">${q.options[correctAnswer]}</span>
         </p>
-      </div>
+    </div>
     `;
-  });
+});
 </script>
 
 </body>
 </html>
+
