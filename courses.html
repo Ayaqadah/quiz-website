@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Select Course 💗</title>
+  <style>
+    body {
+      font-family: "Poppins", sans-serif;
+      background: linear-gradient(135deg, #ebdce2, #ffd6e8);
+      min-height: 100vh;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: center;
+      padding-top: 60px;
+      color: white;
+      text-align: center;
+    }
+
+    h1 {
+      margin-bottom: 40px;
+      font-size: 38px;
+      letter-spacing: 1px;
+      text-shadow: 1px 1px 2px #b66;
+    }
+
+    /* Grid for courses */
+    #courseGrid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 25px;
+      width: 60%;
+      max-width: 700px;
+    }
+
+    .course-btn {
+      padding: 22px 0;
+      border: none;
+      border-radius: 18px;
+      font-size: 22px;
+      cursor: pointer;
+      transition: 0.3s ease;
+      color: white;
+      box-shadow: 0px 4px 12px rgba(0,0,0,0.15);
+    }
+
+    .course-btn:hover {
+      transform: translateY(-6px) scale(1.03);
+      box-shadow: 0px 8px 18px rgba(0,0,0,0.25);
+    }
+  </style>
+</head>
+<body>
+
+<h1>Select a Course 📚💡</h1>
+
+<div id="courseGrid"></div>
+
+<script>
+  /* Pastel color palette for courses */
+  const courseColors = [
+    "#ff9ecd", // ML
+    "#bde0fe", // DM
+    "#cdb4db", // DSP
+    "#ffc8dd", // Data Security
+    "#b5ead7"  // CV
+  ];
+
+  const courses = [
+    "Machine Learning",
+    "Data Mining",
+    "Decision Support Systems",
+    "Data Security and Privacy",
+    "Computer Vision"
+  ];
+
+  // Display buttons
+  for (let i = 0; i < courses.length; i++) {
+    document.getElementById("courseGrid").innerHTML += `
+      <button class="course-btn" 
+        style="background: ${courseColors[i]};"
+        onclick="selectCourse('${courses[i]}')">
+        ${courses[i]}
+      </button>
+    `;
+  }
+
+  // Save the course + go to modules page
+  function selectCourse(courseName) {
+    localStorage.setItem("selectedCourse", courseName);
+    window.location.href = "modules.html";
+  }
+</script>
+
+</body>
+</html>

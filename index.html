@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Aya's Quiz 💗</title>
+  <style>
+    body {
+      font-family: "Poppins", sans-serif;
+      background: linear-gradient(135deg, #ebdce2, #ffd6e8);
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      color: #fff;
+      text-shadow: 1px 1px 2px #b66;
+    }
+
+    h1 {
+      font-size: 40px;
+      margin-bottom: 20px;
+    }
+
+    input {
+      padding: 12px 20px;
+      border-radius: 10px;
+      border: none;
+      font-size: 18px;
+      width: 250px;
+      text-align: center;
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 12px 25px;
+      border: none;
+      border-radius: 20px;
+      background: #ff6fa8;
+      color: white;
+      font-size: 20px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background: #ff4c92;
+    }
+  </style>
+</head>
+<body>
+  <h1>Welcome to Aya’s Quiz 💗</h1>
+  <input id="nameInput" placeholder="Enter your name">
+  <button onclick="startQuiz()">Start ✨</button>
+
+  <script>
+    function startQuiz() {
+      const name = document.getElementById("nameInput").value.trim();
+      if (name === "") return alert("Please enter your name 🥺");
+
+      localStorage.setItem("playerName", name);
+      window.location.href = "courses.html";
+    }
+  </script>
+</body>
+</html>

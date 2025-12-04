@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Select Module 💗</title>
+  <style>
+    body {
+      font-family: "Poppins", sans-serif;
+      background: linear-gradient(135deg, #ebdce2, #ffd6e8);
+      min-height: 100vh;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: center;
+      padding-top: 60px;
+      color: white;
+      text-align: center;
+    }
+
+    h1 {
+      margin-bottom: 20px;
+      font-size: 36px;
+      letter-spacing: 1px;
+      text-shadow: 1px 1px 2px #b66;
+    }
+
+    h2 {
+      margin-bottom: 40px;
+      font-size: 22px;
+      opacity: 0.9;
+    }
+
+    #moduleGrid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      width: 70%;
+      max-width: 850px;
+    }
+
+    .module-btn {
+      padding: 18px 0;
+      border: none;
+      border-radius: 18px;
+      font-size: 20px;
+      cursor: pointer;
+      transition: 0.3s ease;
+      color: white;
+      box-shadow: 0px 4px 12px rgba(0,0,0,0.15);
+    }
+
+    .module-btn:hover {
+      transform: translateY(-6px) scale(1.03);
+      box-shadow: 0px 8px 18px rgba(0,0,0,0.25);
+    }
+
+    .final-btn {
+      margin-top: 35px;
+      background: #ff4c92;
+      padding: 18px 40px;
+      font-size: 24px;
+      border-radius: 25px;
+      cursor: pointer;
+      color: white;
+      border: none;
+      box-shadow: 0px 5px 15px rgba(255,100,140,0.4);
+      transition: 0.3s ease;
+    }
+
+    .final-btn:hover {
+      transform: translateY(-6px) scale(1.05);
+    }
+  </style>
+</head>
+<body>
+
+<h1>Select a Module 💡</h1>
+<h2 id="courseName"></h2>
+
+<div id="moduleGrid"></div>
+
+<button class="final-btn" onclick="startFinalExam()">
+  FINAL EXAM MODE 📝⏳
+</button>
+
+<script>
+  const course = localStorage.getItem("selectedCourse");
+  document.getElementById("courseName").innerText = "Course: " + course;
+
+  const moduleColors = [
+    "#ff9ecd", "#ffb3c6", "#ffc8dd",
+    "#ffafcc", "#bde0fe", "#a2d2ff",
+    "#cdb4db", "#ffcfd2", "#fde4cf",
+    "#e2f0cb", "#b5ead7", "#c7ceea",
+    "#f7d6e0"
+  ];
+
+  for (let i = 1; i <= 13; i++) {
+    document.getElementById("moduleGrid").innerHTML += `
+      <button class="module-btn"
+        style="background: ${moduleColors[i-1]};"
+        onclick="selectModule(${i})">
+        Module ${i}
+      </button>
+    `;
+  }
+
+  function selectModule(moduleNum) {
+    localStorage.setItem("selectedModule", moduleNum);
+    localStorage.removeItem("examMode");
+    window.location.href = "quiz.html";
+  }
+
+  function startFinalExam() {
+    localStorage.setItem("selectedModule", "final");
+    localStorage.setItem("examMode", "true");
+    window.location.href = "quiz.html";
+  }
+</script>
+
+</body>
+</html>
