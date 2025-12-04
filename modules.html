@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Quiz 🌿</title>
+<title>Select Module 🌿</title>
 
 <!-- Fonts -->
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
@@ -10,9 +10,13 @@
 body {
     font-family: "Poppins", sans-serif;
     background: linear-gradient(135deg, #f3f7f4, #e1ece4);
-    padding: 40px 15px;
-    max-width: 900px;
-    margin: auto;
+    min-height: 100vh;
+    margin: 0;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: column;
+    padding-top: 50px;
     color: #2F3E34;
     animation: fadeIn 0.6s ease-out;
 }
@@ -22,357 +26,120 @@ body {
     to { opacity: 1; }
 }
 
-/* Main Card */
-#quizBox {
+.card {
     background: white;
+    width: 88%;
+    max-width: 750px;
     padding: 35px;
     border-radius: 25px;
-    box-shadow: 0px 8px 25px rgba(0,0,0,0.07);
-    width: 100%;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.07);
+    text-align: center;
 }
 
-/* Titles */
-h2 {
-    color: #7AA78B;
+h1 {
+    font-size: 32px;
     font-weight: 600;
-    margin-bottom: 8px;
+    margin-bottom: 10px;
+    color: #3E5243;
 }
 
-#moduleTitle {
-    margin-bottom: 20px;
+h2 {
     font-size: 20px;
+    opacity: 0.75;
+    margin-bottom: 30px;
 }
 
-/* Progress Bar */
-#progressContainer {
-    width:100%;
-    background:#e5efe7;
-    border-radius:20px;
-    height:18px;
-    margin-bottom:20px;
-    overflow:hidden;
+#moduleGrid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+    margin-bottom: 30px;
 }
 
-#progressBar {
-    height:100%;
-    width:0%;
-    background:#8EB897;
-    border-radius:20px;
-    transition:0.4s;
-}
-
-/* Timer */
-#timer {
-    text-align:right;
-    color:#7AA78B;
-    font-weight:600;
-    display:none;
-    font-size: 20px;
-}
-
-/* Question text */
-#questionText {
-    font-size: 20px;
-    margin-bottom: 15px;
-}
-
-/* Answer options */
-.answer {
-    background: #F2F5F1;
-    padding: 14px 18px;
-    border-radius: 15px;
-    margin: 10px 0;
+.module-btn {
+    padding: 15px 0;
+    border: none;
+    border-radius: 16px;
+    font-size: 18px;
     cursor: pointer;
-    transition: 0.25s;
-    border: 1px solid #DCE7D7;
-    font-size: 17px;
+    color: white;
+    font-weight: 500;
+    transition: 0.25s ease;
+    box-shadow: 0px 4px 12px rgba(0,0,0,0.10);
 }
 
-.answer:hover {
-    background: #E7F0E4;
+.module-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0px 7px 15px rgba(0,0,0,0.15);
 }
 
-.correct {
-    background: #CFF5D1 !important;
-    border: 2px solid #4CAF50;
-}
-
-.wrong {
-    background: #F5D3D3 !important;
-    border: 2px solid #E15858;
-}
-
-.disabled {
-    pointer-events: none;
-    opacity: 0.7;
-}
-
-/* Navigation buttons */
-button {
-    padding: 12px 30px;
+.final-btn {
+    margin-top: 10px;
     background: #8EB897;
+    padding: 16px 35px;
+    font-size: 20px;
+    border-radius: 22px;
+    cursor: pointer;
     color: white;
     border: none;
-    border-radius: 18px;
-    font-size: 17px;
-    cursor: pointer;
-    transition: 0.3s;
+    box-shadow: 0px 5px 15px rgba(142,184,151,0.35);
+    transition: 0.3s ease;
 }
 
-button:hover {
+.final-btn:hover {
+    transform: scale(1.06);
     background: #7AA78B;
-}
-
-#backBtn {
-    background: #A6C8B2;
-}
-
-#backBtn:hover {
-    background: #95B7A2;
 }
 </style>
 </head>
 
 <body>
 
-<div id="quizBox">
+<div class="card">
+    <h1>Select a Module 🌿</h1>
+    <h2 id="courseName"></h2>
 
-    <!-- Progress bar -->
-    <div id="progressContainer">
-        <div id="progressBar"></div>
-    </div>
+    <div id="moduleGrid"></div>
 
-    <!-- Timer (hidden unless exam mode) -->
-    <h2 id="timer">Time Left: 05:00</h2>
-
-    <h2 id="courseTitle"></h2>
-    <h3 id="moduleTitle"></h3>
-
-    <h2 id="questionNumber"></h2>
-    <p id="questionText"></p>
-
-    <div id="answers"></div>
-
-    <div style="display:flex; justify-content:space-between; margin-top:25px;">
-        <button id="backBtn" onclick="prevQuestion()" style="display:none;">⬅ Back</button>
-        <button id="nextBtn" onclick="nextQuestion()">Next ➜</button>
-    </div>
+    <button class="final-btn" onclick="startFinalExam()">
+        FINAL EXAM MODE 📝⏳
+    </button>
 </div>
 
 <script>
-let course = localStorage.getItem("selectedCourse");
-let moduleNum = localStorage.getItem("selectedModule");
-let examMode = localStorage.getItem("examMode");
+const course = localStorage.getItem("selectedCourse");
+document.getElementById("courseName").innerText = "Course: " + course;
 
-document.getElementById("courseTitle").innerText = course;
+const moduleColors = [
+    "#90B79F", "#9FCAA9", "#B0D7BA",
+    "#C6E6CC", "#D8F1D9", "#B3DDC0",
+    "#95C7A4", "#8FB69A", "#A3C9AE",
+    "#BCDCC4", "#CFE7D2", "#A7C4A0",
+    "#8FB69A"
+];
 
-/* -----------------------------
-QUESTION BANK
----------------------------- */
-const allQuestions = {
-"Machine Learning": {
-1: [
-{
-question: "What does PCA stand for in dimensionality reduction?",
-options: [
-"A. Principal Component Analysis",
-"B. Partial Component Analysis",
-"C. Principal Cluster Analysis",
-"D. Partial Cluster Analysist"
-],
-answer: 0
-},
-
-{
-question: "What do supervised ML techniques learn from?",
-options: [
-"A. The algorithm structure",
-"B. Features + target",
-"C. The program code",
-"D. Performance measure"
-],
-answer: 1
-}
-],
-2: [
-{ question: "ML Module 2 Q1?", options: ["X", "Y", "Z"], answer: 1 }
-]
-},
-
-"Data Mining": {
-1: [{ question: "DM Module 1 Q1?", options: ["A", "B", "C"], answer: 1 }]
-},
-
-"Decision Support Systems": {
-1: [{ question: "DSS Module 1 Q1?", options: ["A", "B", "C"], answer: 0 }]
-},
-
-"Data Security and Privacy": {
-1: [{ question: "DSP Module 1 Q1?", options: ["A", "B", "C"], answer: 2 }]
-},
-
-"Computer Vision": {
-1: [{ question: "CV Module 1 Q1?", options: ["A", "B", "C"], answer: 1 }]
-}
-};
-
-/* ----------------------------
-LOAD QUESTIONS BASED ON MODE
----------------------------- */
-let questions = [];
-
-if (examMode === "true") {
-    document.getElementById("moduleTitle").innerText = "Final Exam";
-    document.getElementById("timer").style.display = "block";
-
-    for (let mod in allQuestions[course]) {
-        questions = questions.concat(allQuestions[course][mod]);
-    }
-
-} else {
-    document.getElementById("moduleTitle").innerText = "Module " + moduleNum;
-    questions = allQuestions[course][moduleNum] || [];
+for (let i = 1; i <= 13; i++) {
+    document.getElementById("moduleGrid").innerHTML += `
+    <button class="module-btn"
+        style="background: ${moduleColors[i-1]};"
+        onclick="selectModule(${i})">
+        Module ${i}
+    </button>`;
 }
 
-questions = questions.sort(() => Math.random() - 0.5);
-
-let index = 0;
-let score = 0;
-let answered = false;
-let answersHistory = [];
-
-/* ----------------------------
-TIMER FOR EXAM MODE
----------------------------- */
-let totalTime = 300;
-let timerInterval;
-
-function startTimer() {
-    timerInterval = setInterval(() => {
-        totalTime--;
-        let m = Math.floor(totalTime / 60);
-        let s = totalTime % 60;
-        if (s < 10) s = "0" + s;
-
-        document.getElementById("timer").innerText = `Time Left: ${m}:${s}`;
-
-        if (totalTime <= 0) finishQuizDueToTime();
-    }, 1000);
+function selectModule(moduleNum) {
+    localStorage.setItem("selectedModule", moduleNum);
+    localStorage.removeItem("examMode");
+    window.location.href = "quiz.html";
 }
 
-/* ----------------------------
-DISPLAY QUESTION
----------------------------- */
-function loadQuestion() {
-    answered = false;
-
-    if (index === 0 && examMode === "true") startTimer();
-
-    let progress = (index / questions.length) * 100;
-    document.getElementById("progressBar").style.width = progress + "%";
-
-    const q = questions[index];
-
-    document.getElementById("questionNumber").innerText =
-        "Question " + (index + 1) + " / " + questions.length;
-
-    document.getElementById("questionText").innerText = q.question;
-
-    const answersDiv = document.getElementById("answers");
-    answersDiv.innerHTML = "";
-
-    q.options.forEach((opt, i) => {
-        answersDiv.innerHTML += `
-        <div class="answer" onclick="selectAnswer(${i}, this)">
-            ${opt}
-        </div>`;
-    });
-
-    document.getElementById("nextBtn").style.display = "none";
+function startFinalExam() {
+    localStorage.setItem("selectedModule", "final");
+    localStorage.setItem("examMode", "true");
+    window.location.href = "quiz.html";
 }
-
-/* ----------------------------
-SELECT ANSWER
----------------------------- */
-function selectAnswer(selectedIndex, element) {
-    if (answered) return;
-    answered = true;
-
-    const correctIndex = questions[index].answer;
-    const options = document.querySelectorAll(".answer");
-
-    answersHistory[index] = selectedIndex;
-
-    options[correctIndex].classList.add("correct");
-
-    if (selectedIndex !== correctIndex) {
-        element.classList.add("wrong");
-    } else score++;
-
-    options.forEach(opt => opt.classList.add("disabled"));
-
-    document.getElementById("nextBtn").style.display = "block";
-    document.getElementById("backBtn").style.display = index > 0 ? "block" : "none";
-}
-
-/* ----------------------------
-NEXT QUESTION
----------------------------- */
-function nextQuestion() {
-    index++;
-
-    if (index === questions.length) {
-        clearInterval(timerInterval);
-        finishQuiz();
-    } else {
-        loadQuestion();
-    }
-}
-
-function finishQuiz() {
-    localStorage.setItem("score", score);
-    localStorage.setItem("reviewQuestions", JSON.stringify(questions));
-    localStorage.setItem("reviewAnswers", JSON.stringify(answersHistory));
-    window.location.href = "result.html";
-}
-
-function finishQuizDueToTime() {
-    clearInterval(timerInterval);
-    localStorage.setItem("timeUp", "yes");
-    finishQuiz();
-}
-
-/* ----------------------------
-BACK BUTTON
----------------------------- */
-function prevQuestion() {
-    if (index === 0) return;
-
-    index--;
-    loadQuestion();
-
-    let prev = answersHistory[index];
-    if (prev !== undefined && prev !== null) {
-        const options = document.querySelectorAll(".answer");
-
-        options.forEach(opt => opt.classList.add("disabled"));
-
-        if (prev === questions[index].answer) {
-            options[prev].classList.add("correct");
-        } else {
-            options[prev].classList.add("wrong");
-            options[questions[index].answer].classList.add("correct");
-        }
-
-        answered = true;
-        document.getElementById("nextBtn").style.display = "block";
-    }
-
-    document.getElementById("backBtn").style.display = index > 0 ? "block" : "none";
-}
-
-loadQuestion();
 </script>
 
 </body>
 </html>
+
