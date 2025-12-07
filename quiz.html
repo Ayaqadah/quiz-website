@@ -130,6 +130,14 @@ button:hover {
 #backBtn:hover {
     background: #95B7A2;
 }
+
+/* Empty state */
+.empty-message {
+    padding: 25px;
+    text-align: center;
+    color: #6b7c6f;
+    font-size: 18px;
+}
 </style>
 </head>
 
@@ -160,420 +168,436 @@ button:hover {
 </div>
 
 <script>
+/* ----------------------------
+Load saved course/module info
+---------------------------- */
 let course = localStorage.getItem("selectedCourse");
 let moduleNum = localStorage.getItem("selectedModule");
 let examMode = localStorage.getItem("examMode");
 
+if (!course) {
+    // If somehow the course isn't set, send user back to courses
+    document.getElementById("quizBox").innerHTML = `
+      <div class="empty-message">
+        No course selected. <br><br>
+        <button onclick="location.href='courses.html'">Back to Courses</button>
+      </div>`;
+    throw new Error("No course selected");
+}
+
 document.getElementById("courseTitle").innerText = course;
 
 /* -----------------------------
-QUESTION BANK
+QUESTION BANK (correctly defined)
 ---------------------------- */
-allQuestions["Machine Learning"][1] = [
+let allQuestions = {
+  "Machine Learning": {
+    1: [
+      {
+        question: "How does Arthur Samuel define Machine Learning?",
+        options: [
+          "A computer's ability to learn through trial and error",
+          "The ability to learn without being explicitly programmed",
+          "Learning from a set of labeled data points",
+          "Using statistical models to predict outcomes"
+        ],
+        answer: 1
+      },
 
-{
-question: "How does Arthur Samuel define Machine Learning?",
-options: [
-"A computer's ability to learn through trial and error",
-"The ability to learn without being explicitly programmed",
-"Learning from a set of labeled data points",
-"Using statistical models to predict outcomes"
-],
-answer: 1
-},
+      {
+        question: "According to Tom Mitchell, when can a computer program be said to learn from experience?",
+        options: [
+          "When it can generalize from one task to another",
+          "When it improves performance on task T after experience E, as measured by performance measure P",
+          "When it can memorize data sets",
+          "When it can classify data without supervision"
+        ],
+        answer: 1
+      },
 
-{
-question: "According to Tom Mitchell, when can a computer program be said to learn from experience?",
-options: [
-"When it can generalize from one task to another",
-"When it improves performance on task T after experience E, as measured by performance measure P",
-"When it can memorize data sets",
-"When it can classify data without supervision"
-],
-answer: 1
-},
+      {
+        question: "In traditional programming, how would you typically write a spam filter?",
+        options: [
+          "By analyzing a dataset of spam messages",
+          "By creating detection algorithms for specific patterns like words or phrases",
+          "By using reinforcement learning techniques",
+          "By running a pre-trained algorithm"
+        ],
+        answer: 1
+      },
 
-{
-question: "In traditional programming, how would you typically write a spam filter?",
-options: [
-"By analyzing a dataset of spam messages",
-"By creating detection algorithms for specific patterns like words or phrases",
-"By using reinforcement learning techniques",
-"By running a pre-trained algorithm"
-],
-answer: 1
-},
+      {
+        question: "How does a spam filter based on Machine Learning detect spam?",
+        options: [
+          "By learning which words and phrases are predictors of spam through historical examples",
+          "By memorizing past emails",
+          "By using a pre-programmed rule-based system",
+          "By randomly flagging emails"
+        ],
+        answer: 0
+      },
 
-{
-question: "How does a spam filter based on Machine Learning detect spam?",
-options: [
-"By learning which words and phrases are predictors of spam through historical examples",
-"By memorizing past emails",
-"By using a pre-programmed rule-based system",
-"By randomly flagging emails"
-],
-answer: 0
-},
+      {
+        question: "What is an additional benefit of Machine Learning beyond filtering spam?",
+        options: [
+          "It can help humans discover patterns in large datasets that were not previously apparent",
+          "It replaces the need for human intuition in decision-making",
+          "It eliminates the need for supervision in data analysis",
+          "It can only handle specific, well-known problems"
+        ],
+        answer: 0
+      },
 
-{
-question: "What is an additional benefit of Machine Learning beyond filtering spam?",
-options: [
-"It can help humans discover patterns in large datasets that were not previously apparent",
-"It replaces the need for human intuition in decision-making",
-"It eliminates the need for supervision in data analysis",
-"It can only handle specific, well-known problems"
-],
-answer: 0
-},
+      {
+        question: "What does supervised learning involve?",
+        options: [
+          "Using labeled training data to learn from historical examples",
+          "Classifying data without any labels",
+          "Building an algorithm without training data",
+          "Comparing new data points to old ones"
+        ],
+        answer: 0
+      },
 
-{
-question: "What does supervised learning involve?",
-options: [
-"Using labeled training data to learn from historical examples",
-"Classifying data without any labels",
-"Building an algorithm without training data",
-"Comparing new data points to old ones"
-],
-answer: 0
-},
+      {
+        question: "Which of the following is an example of a supervised learning task?",
+        options: [
+          "Clustering data into groups",
+          "Predicting the price of a car based on its mileage, brand, and age",
+          "Reducing the dimensionality of a dataset",
+          "Discovering patterns in unlabeled data"
+        ],
+        answer: 1
+      },
 
-{
-question: "Which of the following is an example of a supervised learning task?",
-options: [
-"Clustering data into groups",
-"Predicting the price of a car based on its mileage, brand, and age",
-"Reducing the dimensionality of a dataset",
-"Discovering patterns in unlabeled data"
-],
-answer: 1
-},
+      {
+        question: "Which of the following is a task commonly associated with supervised learning?",
+        options: [
+          "Clustering",
+          "Classification",
+          "Dimensionality reduction",
+          "Data mining"
+        ],
+        answer: 1
+      },
 
-{
-question: "Which of the following is a task commonly associated with supervised learning?",
-options: [
-"Clustering",
-"Classification",
-"Dimensionality reduction",
-"Data mining"
-],
-answer: 1
-},
+      {
+        question: "Predicting a numeric value like car price is an example of:",
+        options: [
+          "Classification",
+          "Clustering",
+          "Regression",
+          "Dimensionality reduction"
+        ],
+        answer: 2
+      },
 
-{
-question: "Predicting a numeric value like car price is an example of:",
-options: [
-"Classification",
-"Clustering",
-"Regression",
-"Dimensionality reduction"
-],
-answer: 2
-},
+      {
+        question: "Which of the following are examples of supervised learning algorithms?",
+        options: [
+          "K-means and DBSCAN",
+          "Neural networks and Decision Trees",
+          "Association rule learning and Clustering",
+          "Autoencoders and Isolation Forest"
+        ],
+        answer: 1
+      },
 
-{
-question: "Which of the following are examples of supervised learning algorithms?",
-options: [
-"K-means and DBSCAN",
-"Neural networks and Decision Trees",
-"Association rule learning and Clustering",
-"Autoencoders and Isolation Forest"
-],
-answer: 1
-},
+      {
+        question: "What distinguishes unsupervised learning from supervised learning?",
+        options: [
+          "The training data in unsupervised learning is unlabeled",
+          "Unsupervised learning requires more training data",
+          "Unsupervised learning algorithms always outperform supervised learning",
+          "Unsupervised learning focuses on regression tasks"
+        ],
+        answer: 0
+      },
 
-{
-question: "What distinguishes unsupervised learning from supervised learning?",
-options: [
-"The training data in unsupervised learning is unlabeled",
-"Unsupervised learning requires more training data",
-"Unsupervised learning algorithms always outperform supervised learning",
-"Unsupervised learning focuses on regression tasks"
-],
-answer: 0
-},
+      {
+        question: "Which of the following is an example of an unsupervised learning algorithm?",
+        options: [
+          "K-means",
+          "Logistic regression",
+          "Neural networks",
+          "Random forests"
+        ],
+        answer: 0
+      },
 
-{
-question: "Which of the following is an example of an unsupervised learning algorithm?",
-options: [
-"K-means",
-"Logistic regression",
-"Neural networks",
-"Random forests"
-],
-answer: 0
-},
+      {
+        question: "What is the goal of clustering in unsupervised learning?",
+        options: [
+          "To discover groups of related observations within the data",
+          "To predict numeric values based on labeled data",
+          "To classify data into predefined categories",
+          "To reduce the dimensionality of the data"
+        ],
+        answer: 0
+      },
 
-{
-question: "What is the goal of clustering in unsupervised learning?",
-options: [
-"To discover groups of related observations within the data",
-"To predict numeric values based on labeled data",
-"To classify data into predefined categories",
-"To reduce the dimensionality of the data"
-],
-answer: 0
-},
+      {
+        question: "Which algorithms are used for anomaly detection in unsupervised learning?",
+        options: [
+          "One-class SVM and Isolation Forest",
+          "K-nearest neighbors and Logistic Regression",
+          "Decision Trees and Support Vector Machines",
+          "Apriori and Eclat"
+        ],
+        answer: 0
+      },
 
-{
-question: "Which algorithms are used for anomaly detection in unsupervised learning?",
-options: [
-"One-class SVM and Isolation Forest",
-"K-nearest neighbors and Logistic Regression",
-"Decision Trees and Support Vector Machines",
-"Apriori and Eclat"
-],
-answer: 0
-},
+      {
+        question: "What is semi-supervised learning?",
+        options: [
+          "Learning without any labeled data",
+          "Learning with a small amount of labeled data and a large amount of unlabeled data",
+          "A combination of unsupervised and reinforcement learning",
+          "Learning exclusively through rewards and penalties"
+        ],
+        answer: 1
+      },
 
-{
-question: "What is semi-supervised learning?",
-options: [
-"Learning without any labeled data",
-"Learning with a small amount of labeled data and a large amount of unlabeled data",
-"A combination of unsupervised and reinforcement learning",
-"Learning exclusively through rewards and penalties"
-],
-answer: 1
-},
+      {
+        question: "What does the learning system observe in Reinforcement Learning?",
+        options: [
+          "Labeled data points",
+          "Patterns in training data",
+          "The environment, actions, and rewards",
+          "Clusters of similar data points"
+        ],
+        answer: 2
+      },
 
-{
-question: "What does the learning system observe in Reinforcement Learning?",
-options: [
-"Labeled data points",
-"Patterns in training data",
-"The environment, actions, and rewards",
-"Clusters of similar data points"
-],
-answer: 2
-},
+      {
+        question: "In Reinforcement Learning, what is the system referred to as?",
+        options: [
+          "A predictor",
+          "A classifier",
+          "An agent",
+          "A cluster"
+        ],
+        answer: 2
+      },
 
-{
-question: "In Reinforcement Learning, what is the system referred to as?",
-options: [
-"A predictor",
-"A classifier",
-"An agent",
-"A cluster"
-],
-answer: 2
-},
+      {
+        question: "What are two major things that can go wrong in a Machine Learning project?",
+        options: [
+          "Choosing the wrong dataset and using too many features",
+          "Collecting bad data and selecting a poor learning algorithm",
+          "Choosing too many hyperparameters and failing to overfit",
+          "Using too few training examples and clustering incorrectly"
+        ],
+        answer: 1
+      },
 
-{
-question: "What are two major things that can go wrong in a Machine Learning project?",
-options: [
-"Choosing the wrong dataset and using too many features",
-"Collecting bad data and selecting a poor learning algorithm",
-"Choosing too many hyperparameters and failing to overfit",
-"Using too few training examples and clustering incorrectly"
-],
-answer: 1
-},
+      {
+        question: "What problem arises from a non-representative training sample?",
+        options: [
+          "It leads to overfitting",
+          "It affects the generalization of the model",
+          "It helps improve prediction accuracy",
+          "It indicates a well-trained model"
+        ],
+        answer: 1
+      },
 
-{
-question: "What problem arises from a non-representative training sample?",
-options: [
-"It leads to overfitting",
-"It affects the generalization of the model",
-"It helps improve prediction accuracy",
-"It indicates a well-trained model"
-],
-answer: 1
-},
+      {
+        question: "What is underfitting?",
+        options: [
+          "When the model fails to capture the noise in training data",
+          "When the model is too simple to capture the structure of the data",
+          "When the model performs better on training than test data",
+          "When the model uses too many features"
+        ],
+        answer: 1
+      },
 
-{
-question: "What is underfitting?",
-options: [
-"When the model fails to capture the noise in training data",
-"When the model is too simple to capture the structure of the data",
-"When the model performs better on training than test data",
-"When the model uses too many features"
-],
-answer: 1
-},
+      {
+        question: "What is Machine Learning (ML)?",
+        options: [
+          "Writing explicit programs to handle specific tasks",
+          "A field that enables computers to learn without explicit programming",
+          "Using data to perform calculations",
+          "A method for storing large datasets"
+        ],
+        answer: 1
+      },
 
-{
-question: "What is Machine Learning (ML)?",
-options: [
-"Writing explicit programs to handle specific tasks",
-"A field that enables computers to learn without explicit programming",
-"Using data to perform calculations",
-"A method for storing large datasets"
-],
-answer: 1
-},
+      {
+        question: "What are the three main types of Machine Learning?",
+        options: [
+          "Regression, classification, clustering",
+          "Supervised, unsupervised, reinforcement learning",
+          "Supervised, clustering, prediction",
+          "Neural networks, decision trees, clustering"
+        ],
+        answer: 1
+      },
 
-{
-question: "What are the three main types of Machine Learning?",
-options: [
-"Regression, classification, clustering",
-"Supervised, unsupervised, reinforcement learning",
-"Supervised, clustering, prediction",
-"Neural networks, decision trees, clustering"
-],
-answer: 1
-},
+      {
+        question: "Which ML type uses labeled data?",
+        options: [
+          "Unsupervised learning",
+          "Supervised learning",
+          "Reinforcement learning",
+          "Semi-supervised learning"
+        ],
+        answer: 1
+      },
 
-{
-question: "Which ML type uses labeled data?",
-options: [
-"Unsupervised learning",
-"Supervised learning",
-"Reinforcement learning",
-"Semi-supervised learning"
-],
-answer: 1
-},
+      {
+        question: "What is the main goal of unsupervised learning?",
+        options: [
+          "Predicting target values",
+          "Finding patterns in unlabeled data",
+          "Minimizing bias and variance",
+          "Performing regression tasks"
+        ],
+        answer: 1
+      },
 
-{
-question: "What is the main goal of unsupervised learning?",
-options: [
-"Predicting target values",
-"Finding patterns in unlabeled data",
-"Minimizing bias and variance",
-"Performing regression tasks"
-],
-answer: 1
-},
+      {
+        question: "What is reinforcement learning based on?",
+        options: [
+          "Training with labeled data",
+          "Clustering data points",
+          "Receiving rewards or penalties for actions",
+          "Reducing dimensionality"
+        ],
+        answer: 2
+      },
 
-{
-question: "What is reinforcement learning based on?",
-options: [
-"Training with labeled data",
-"Clustering data points",
-"Receiving rewards or penalties for actions",
-"Reducing dimensionality"
-],
-answer: 2
-},
+      {
+        question: "Which of the following is a supervised learning task?",
+        options: [
+          "Clustering",
+          "Dimensionality reduction",
+          "Regression",
+          "Association rule learning"
+        ],
+        answer: 2
+      },
 
-{
-question: "Which of the following is a supervised learning task?",
-options: [
-"Clustering",
-"Dimensionality reduction",
-"Regression",
-"Association rule learning"
-],
-answer: 2
-},
+      {
+        question: "What is overfitting in ML?",
+        options: [
+          "When a model performs well on training data but poorly on unseen data",
+          "When the model cannot capture training data patterns",
+          "When the training dataset is too small",
+          "When a model uses too few parameters"
+        ],
+        answer: 0
+      },
 
-{
-question: "What is overfitting in ML?",
-options: [
-"When a model performs well on training data but poorly on unseen data",
-"When the model cannot capture training data patterns",
-"When the training dataset is too small",
-"When a model uses too few parameters"
-],
-answer: 0
-},
+      {
+        question: "What is underfitting?",
+        options: [
+          "When a model has low bias",
+          "When a model is too simple to capture patterns",
+          "When a model has high variance",
+          "When a model uses too many parameters"
+        ],
+        answer: 1
+      },
 
-{
-question: "What is underfitting?",
-options: [
-"When a model has low bias",
-"When a model is too simple to capture patterns",
-"When a model has high variance",
-"When a model uses too many parameters"
-],
-answer: 1
-},
+      {
+        question: "What is the purpose of a validation set?",
+        options: [
+          "Training the model",
+          "Tuning hyperparameters",
+          "Testing final performance",
+          "Detecting overfitting"
+        ],
+        answer: 1
+      },
 
-{
-question: "What is the purpose of a validation set?",
-options: [
-"Training the model",
-"Tuning hyperparameters",
-"Testing final performance",
-"Detecting overfitting"
-],
-answer: 1
-},
+      {
+        question: "What is cross-validation?",
+        options: [
+          "Splitting data into labeled and unlabeled sets",
+          "A technique for training and validating a model on multiple partitions",
+          "Evaluating a model using only a training set",
+          "Using unlabeled data to fine-tune models"
+        ],
+        answer: 1
+      },
 
-{
-question: "What is cross-validation?",
-options: [
-"Splitting data into labeled and unlabeled sets",
-"A technique for training and validating a model on multiple partitions",
-"Evaluating a model using only a training set",
-"Using unlabeled data to fine-tune models"
-],
-answer: 1
-},
+      {
+        question: "What does the bias-variance trade-off refer to?",
+        options: [
+          "Increasing both bias and variance",
+          "Reducing error to zero",
+          "Balancing bias and variance to optimize performance",
+          "Removing noise from data"
+        ],
+        answer: 2
+      },
 
-{
-question: "What does the bias-variance trade-off refer to?",
-options: [
-"Increasing both bias and variance",
-"Reducing error to zero",
-"Balancing bias and variance to optimize performance",
-"Removing noise from data"
-],
-answer: 2
-},
+      {
+        question: "What is a common unsupervised learning task?",
+        options: [
+          "Regression",
+          "Classification",
+          "Clustering",
+          "Reinforcement learning"
+        ],
+        answer: 2
+      },
 
-{
-question: "What is a common unsupervised learning task?",
-options: [
-"Regression",
-"Classification",
-"Clustering",
-"Reinforcement learning"
-],
-answer: 2
-},
+      {
+        question: "Which of the following is an example of dimensionality reduction?",
+        options: [
+          "Regression",
+          "Clustering",
+          "Principal Component Analysis (PCA)",
+          "Reinforcement learning"
+        ],
+        answer: 2
+      },
 
-{
-question: "Which of the following is an example of dimensionality reduction?",
-options: [
-"Regression",
-"Clustering",
-"Principal Component Analysis (PCA)",
-"Reinforcement learning"
-],
-answer: 2
-},
+      {
+        question: "How is accuracy calculated in classification tasks?",
+        options: [
+          "(TP + TN) / (TP + TN + FP + FN)",
+          "TP / (TP + FN)",
+          "TN / (TN + FP)",
+          "FP / (FP + FN)"
+        ],
+        answer: 0
+      },
 
-{
-question: "How is accuracy calculated in classification tasks?",
-options: [
-"(TP + TN) / (TP + TN + FP + FN)",
-"TP / (TP + FN)",
-"TN / (TN + FP)",
-"FP / (FP + FN)"
-],
-answer: 0
-},
+      {
+        question: "What is precision in classification tasks?",
+        options: [
+          "The fraction of true positives out of all predicted positives",
+          "The fraction of true positives out of all actual positives",
+          "The proportion of true negatives",
+          "The total prediction error"
+        ],
+        answer: 0
+      }
 
-{
-question: "What is precision in classification tasks?",
-options: [
-"The fraction of true positives out of all predicted positives",
-"The fraction of true positives out of all actual positives",
-"The proportion of true negatives",
-"The total prediction error"
-],
-answer: 0
-}
+    ] // end ML module 1 array
+  },
 
-];
+  "Data Mining": {
+    1: [{ question: "DM Module 1 Q1?", options: ["A", "B", "C"], answer: 1 }]
+  },
 
-"Data Mining": {
-1: [{ question: "DM Module 1 Q1?", options: ["A", "B", "C"], answer: 1 }]
-},
+  "Decision Support Systems": {
+    1: [{ question: "DSS Module 1 Q1?", options: ["A", "B", "C"], answer: 0 }]
+  },
 
-"Decision Support Systems": {
-1: [{ question: "DSS Module 1 Q1?", options: ["A", "B", "C"], answer: 0 }]
-},
+  "Data Security and Privacy": {
+    1: [{ question: "DSP Module 1 Q1?", options: ["A", "B", "C"], answer: 2 }]
+  },
 
-"Data Security and Privacy": {
-1: [{ question: "DSP Module 1 Q1?", options: ["A", "B", "C"], answer: 2 }]
-},
+  "Computer Vision": {
+    1: [{ question: "CV Module 1 Q1?", options: ["A", "B", "C"], answer: 1 }]
+  }
 
-"Computer Vision": {
-1: [{ question: "CV Module 1 Q1?", options: ["A", "B", "C"], answer: 1 }]
-}
-};
+}; // end allQuestions
 
 /* ----------------------------
 LOAD QUESTIONS BASED ON MODE
@@ -584,15 +608,35 @@ if (examMode === "true") {
     document.getElementById("moduleTitle").innerText = "Final Exam";
     document.getElementById("timer").style.display = "block";
 
-    for (let mod in allQuestions[course]) {
-        questions = questions.concat(allQuestions[course][mod]);
+    // combine all modules of the selected course (choice A)
+    if (allQuestions[course]) {
+        for (let mod in allQuestions[course]) {
+            questions = questions.concat(allQuestions[course][mod]);
+        }
+    } else {
+        questions = [];
     }
 
 } else {
     document.getElementById("moduleTitle").innerText = "Module " + moduleNum;
-    questions = allQuestions[course][moduleNum] || [];
+    if (allQuestions[course] && allQuestions[course][moduleNum]) {
+        questions = allQuestions[course][moduleNum];
+    } else {
+        questions = [];
+    }
 }
 
+// handle empty question case
+if (!questions || questions.length === 0) {
+    document.getElementById("quizBox").innerHTML = `
+      <div class="empty-message">
+        No questions available for this course/module. <br><br>
+        <button onclick="location.href='modules.html'">Back to Modules</button>
+      </div>`;
+    throw new Error("No questions found for course/module");
+}
+
+// shuffle questions
 questions = questions.sort(() => Math.random() - 0.5);
 
 let index = 0;
@@ -607,6 +651,8 @@ let totalTime = 300;
 let timerInterval;
 
 function startTimer() {
+    // only start if examMode & questions exist
+    if (examMode !== "true" || !questions.length) return;
     timerInterval = setInterval(() => {
         totalTime--;
         let m = Math.floor(totalTime / 60);
@@ -625,8 +671,10 @@ DISPLAY QUESTION
 function loadQuestion() {
     answered = false;
 
+    // Start timer only once & only in exam mode
     if (index === 0 && examMode === "true") startTimer();
 
+    // Progress bar update
     let progress = (index / questions.length) * 100;
     document.getElementById("progressBar").style.width = progress + "%";
 
@@ -635,12 +683,12 @@ function loadQuestion() {
     document.getElementById("questionNumber").innerText =
         "Question " + (index + 1) + " / " + questions.length;
 
-    document.getElementById("questionText").innerText = q.question;
+    document.getElementById("questionText").innerText = q.question || "";
 
     const answersDiv = document.getElementById("answers");
     answersDiv.innerHTML = "";
 
-    q.options.forEach((opt, i) => {
+    (q.options || []).forEach((opt, i) => {
         answersDiv.innerHTML += `
         <div class="answer" onclick="selectAnswer(${i}, this)">
             ${opt}
@@ -648,6 +696,7 @@ function loadQuestion() {
     });
 
     document.getElementById("nextBtn").style.display = "none";
+    document.getElementById("backBtn").style.display = index > 0 ? "block" : "none";
 }
 
 /* ----------------------------
@@ -662,7 +711,10 @@ function selectAnswer(selectedIndex, element) {
 
     answersHistory[index] = selectedIndex;
 
-    options[correctIndex].classList.add("correct");
+    // mark correct
+    if (typeof correctIndex === "number" && options[correctIndex]) {
+        options[correctIndex].classList.add("correct");
+    }
 
     if (selectedIndex !== correctIndex) {
         element.classList.add("wrong");
@@ -671,7 +723,6 @@ function selectAnswer(selectedIndex, element) {
     options.forEach(opt => opt.classList.add("disabled"));
 
     document.getElementById("nextBtn").style.display = "block";
-    document.getElementById("backBtn").style.display = index > 0 ? "block" : "none";
 }
 
 /* ----------------------------
@@ -720,7 +771,9 @@ function prevQuestion() {
             options[prev].classList.add("correct");
         } else {
             options[prev].classList.add("wrong");
-            options[questions[index].answer].classList.add("correct");
+            if (options[questions[index].answer]) {
+                options[questions[index].answer].classList.add("correct");
+            }
         }
 
         answered = true;
@@ -730,10 +783,11 @@ function prevQuestion() {
     document.getElementById("backBtn").style.display = index > 0 ? "block" : "none";
 }
 
+/* ----------------------------
+INITIAL LOAD
+---------------------------- */
 loadQuestion();
 </script>
 
 </body>
 </html>
-
-
