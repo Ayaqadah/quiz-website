@@ -580,7 +580,367 @@ let allQuestions = {
 
     ] // end ML module 1 array
   },
+    
+2: [  { question: "What is the primary goal of a cost function in machine learning?",
+      options: [
+        "To minimize the error",
+        "To maximize the error",
+        "To reduce the number of features",
+        "To increase the complexity of the model"
+      ],
+      answer: 0
+    },
 
+    { question: "Which of the following is NOT a step in preparing data for machine learning algorithms?",
+      options: [
+        "Conducting feature selection",
+        "Cleaning the data",
+        "Visualizing the data",
+        "Scaling the features"
+      ],
+      answer: 2
+    },
+
+    { question: "What is the purpose of creating a test set in machine learning?",
+      options: [
+        "To optimize hyper-parameters",
+        "To train the model",
+        "To estimate the generalization error",
+        "To validate the model"
+      ],
+      answer: 2
+    },
+
+    { question: "Which of the following is a common performance measure for regression problems?",
+      options: [
+        "Precision",
+        "Root Mean Squared Error (RMSE)",
+        "Accuracy",
+        "Recall"
+      ],
+      answer: 1
+    },
+
+    { question: "Which of the following is NOT listed as a popular open data repository?",
+      options: [
+        "UCI Irvine Machine Learning Repository",
+        "Kaggle datasets",
+        "Quandl",
+        "Netflix Dataset"
+      ],
+      answer: 3
+    },
+
+    { question: "What is the first step in working with real data?",
+      options: [
+        "Get the data",
+        "Explore the data",
+        "Frame the problem and look at the big picture",
+        "Fine-tune your models"
+      ],
+      answer: 2
+    },
+
+    { question: "What is the source of the dataset used in the example for California housing prices?",
+      options: [
+        "UCI Irvine Machine Learning Repository",
+        "StatLib repository",
+        "Kaggle datasets",
+        "Quandl"
+      ],
+      answer: 1
+    },
+
+    { question: "What is the smallest geographical unit for which census data is published in the California housing dataset?",
+      options: [
+        "County",
+        "City",
+        "Block group",
+        "Neighborhood"
+      ],
+      answer: 2
+    },
+
+    { question: "What type of task is predicting the median housing price in a district?",
+      options: [
+        "Classification task",
+        "Clustering task",
+        "Regression task",
+        "Association task"
+      ],
+      answer: 2
+    },
+
+    { question: "Why is RMSE often preferred for regression problems?",
+      options: [
+        "It is easier to calculate",
+        "It gives equal weight to all errors",
+        "It gives a higher weight to large errors",
+        "It gives a higher weight to small errors"
+      ],
+      answer: 2
+    },
+
+    { question: "In the data acquisition step, what is the first action to take?",
+      options: [
+        "Get the data",
+        "Create a test set",
+        "List the data needed and how much",
+        "Document where to get the data"
+      ],
+      answer: 2
+    },
+
+    { question: "When preparing data, which is NOT a recommended step?",
+      options: [
+        "Creating a copy of the data",
+        "Filling missing values with the mean",
+        "Dropping useless attributes",
+        "Creating a test set before data preparation"
+      ],
+      answer: 3
+    },
+
+    { question: "Why package data transformations as functions?",
+      options: [
+        "To make the code run faster",
+        "To apply transformations only once",
+        "For reproducibility on test and production data",
+        "To reduce memory usage"
+      ],
+      answer: 2
+    },
+
+    { question: "Why create utility functions to automate downloading datasets?",
+      options: [
+        "To make training faster",
+        "To ensure data is in the correct format",
+        "To automate repetitive tasks and ensure reproducibility",
+        "To reduce file size"
+      ],
+      answer: 2
+    },
+
+    { question: "Why create a test set before looking at the data?",
+      options: [
+        "To reduce data size",
+        "To avoid data snooping bias",
+        "To improve model accuracy",
+        "To make the data easier to manipulate"
+      ],
+      answer: 1
+    },
+
+    { question: "One of the first steps when exploring a dataset?",
+      options: [
+        "Visualize the data",
+        "Clean the data",
+        "Create utility functions",
+        "Convert data into usable format"
+      ],
+      answer: 0
+    },
+
+    { question: "What is a key advantage of Mini-batch Gradient Descent?",
+      options: [
+        "It uses fewer samples than SGD",
+        "It balances the trade-off between batch and stochastic methods",
+        "It avoids noise in gradient updates",
+        "It is faster than stochastic methods"
+      ],
+      answer: 1
+    },
+
+    { question: "Which Gradient Descent uses one sample at a time?",
+      options: [
+        "Batch Gradient Descent",
+        "Mini-batch Gradient Descent",
+        "Stochastic Gradient Descent (SGD)",
+        "Polynomial Gradient Descent"
+      ],
+      answer: 2
+    },
+
+    { question: "Advantage of Batch Gradient Descent?",
+      options: [
+        "Uses a small sample",
+        "Converges faster than other methods",
+        "Always converges to the global minimum (for convex functions)",
+        "Avoids the need for gradient calculation"
+      ],
+      answer: 2
+    },
+
+    { question: "Main objective of Gradient Descent?",
+      options: [
+        "To maximize a function",
+        "To minimize a function",
+        "To find the maximum of a cost function",
+        "To make random parameter updates"
+      ],
+      answer: 1
+    },
+
+    { question: "Which OLS assumption ensures constant variance of errors?",
+      options: [
+        "Independence",
+        "Homoscedasticity",
+        "Multicollinearity",
+        "Linearity"
+      ],
+      answer: 1
+    },
+
+    { question: "What does OLS minimize?",
+      options: [
+        "Sum of squared differences between observed and predicted values",
+        "Absolute difference between observed and predicted",
+        "Probability of prediction",
+        "Margin between classes"
+      ],
+      answer: 0
+    },
+
+    { question: "Hinge Loss is primarily used in:",
+      options: [
+        "Regression",
+        "Support Vector Machines (SVM)",
+        "Neural networks",
+        "Decision trees"
+      ],
+      answer: 1
+    },
+
+    { question: "What does MSE measure?",
+      options: [
+        "Absolute difference between actual & predicted",
+        "Average squared difference between actual & predicted",
+        "Product of actual and predicted values",
+        "Ratio of actual to predicted"
+      ],
+      answer: 1
+    },
+
+    { question: "Why is MAE less sensitive to outliers?",
+      options: [
+        "Because it squares the errors",
+        "Because it uses logarithmic scaling",
+        "Because it measures absolute differences",
+        "Because it only measures positive values"
+      ],
+      answer: 2
+    },
+
+    { question: "Cross-Entropy Loss is used for:",
+      options: [
+        "Regression",
+        "Classification",
+        "Clustering",
+        "Dimensionality reduction"
+      ],
+      answer: 1
+    },
+
+    { question: "How does minimizing the cost function affect a model?",
+      options: [
+        "Decreases complexity",
+        "Worsens accuracy",
+        "Improves accuracy",
+        "Makes model unstable"
+      ],
+      answer: 2
+    },
+
+    { question: "Which Gradient Descent uses one sample at a time?",
+      options: [
+        "Batch Gradient Descent",
+        "Mini-batch Gradient Descent",
+        "Stochastic Gradient Descent (SGD)",
+        "Polynomial Gradient Descent"
+      ],
+      answer: 2
+    },
+
+    { question: "Predicting housing prices based on income & population is:",
+      options: [
+        "Classification",
+        "Clustering",
+        "Regression",
+        "Reinforcement learning"
+      ],
+      answer: 2
+    },
+
+    { question: "What should be done before visualizing and analyzing data?",
+      options: [
+        "Build the model",
+        "Select features",
+        "Create a test set",
+        "Fine-tune hyperparameters"
+      ],
+      answer: 2
+    },
+
+    { question: "Which Scikit-learn function fits a linear regression model?",
+      options: [
+        "model.train()",
+        "model.fit()",
+        "model.learn()",
+        "model.optimize()"
+      ],
+      answer: 1
+    },
+
+    { question: "What is data snooping bias?",
+      options: [
+        "Bias from insufficient data",
+        "Bias introduced by using test data during training",
+        "Overfitting from large datasets",
+        "Bias from noisy labels"
+      ],
+      answer: 1
+    },
+
+    { question: "Which step involves feature scaling?",
+      options: [
+        "Model evaluation",
+        "Data preparation",
+        "Problem framing",
+        "Model fine-tuning"
+      ],
+      answer: 1
+    },
+
+    { question: "Which is true about OLS?",
+      options: [
+        "Maximizes variance in data",
+        "Minimizes squared differences between actual and predicted",
+        "Ensures independence between features",
+        "Prevents overfitting"
+      ],
+      answer: 1
+    },
+
+    { question: "What is a hyperplane in linear regression?",
+      options: [
+        "A multidimensional plot of residuals",
+        "A transformation of input features",
+        "A linear surface representing predictions",
+        "A constraint for reducing errors"
+      ],
+      answer: 2
+    },
+
+    { question: "Advantage of mini-batch gradient descent?",
+      options: [
+        "Ensures faster convergence",
+        "Balances computational efficiency and noise reduction",
+        "Eliminates local minima",
+        "Improves R-squared scores"
+      ],
+      answer: 1
+    }
+    ]
   "Data Mining": {
     1: [{ question: "DM Module 1 Q1?", options: ["A", "B", "C"], answer: 1 }]
   },
@@ -791,3 +1151,4 @@ loadQuestion();
 
 </body>
 </html>
+
